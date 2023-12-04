@@ -9,6 +9,7 @@ import os = require("os");
 import path_lib = require("path");
 const join = path_lib.join;
 import util = require("util");
+import {STSClient} from "@aws-sdk/client-sts"
 
 /**
  * utility functions
@@ -47,9 +48,9 @@ export function getWinstonConsole() {
 
 export function getAbsolutePath(path) {
     var homeDir = process.env.HOME || process.env.USERPROFILE;
-		
+
 	var windowsRegex = /([A-Z|a-z]:\\[^*|"<>?\n]*)|(\\\\.*?\\.*)/;
-		
+
     if (path.match(/^\//) || path.match(windowsRegex)) {
 		//On Windows and linux
         return path;
@@ -108,6 +109,7 @@ var _load_var_from_file = function(varname, envname, data, profileName){
         //If already set, it overwrites config files
         return;
     }
+    console.log(`Loading ${envname} = ${process.env[envname]}`);
     var regex = new RegExp('\\[' + profileName +
         '\\](.|\\n|\\r\\n)*?' + varname + '( ?)+=( ?)+(.*)'),
         match;
@@ -116,10 +118,10 @@ var _load_var_from_file = function(varname, envname, data, profileName){
     }
 }
 
-export function loadAWSCredentials(path:string, profileName:string = 'default') {
+export async function loadAWSCredentials(path:string, profileName:string = 'default') {
     var dataRaw = fs.readFileSync(getAbsolutePath(path)),
         data = dataRaw.toString();
-    
+
     _load_var_from_file("aws_secret_access_key", "AWS_SECRET_ACCESS_KEY", data, profileName);
     _load_var_from_file("aws_access_key_id", "AWS_ACCESS_KEY_ID", data, profileName);
     _load_var_from_file("aws_session_token", "AWS_SESSION_TOKEN", data, profileName);

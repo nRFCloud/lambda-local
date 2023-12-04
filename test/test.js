@@ -187,6 +187,11 @@ describe("- Testing lambdalocal.js", function () {
     describe("* Second run (with profile)", function () {
         var done, err, clientContext;
         before(function (cb) {
+            delete process.env["AWS_PROFILE"];
+            delete process.env["AWS_REGION"];
+            delete process.env["AWS_ACCESS_KEY_ID"];
+            delete process.env["AWS_SECRET_ACCESS_KEY"];
+            delete process.env["AWS_SESSION_TOKEN"];
             var lambdalocal = require(lambdalocal_path);
             lambdalocal.setLogger(winston);
             clientContext = { "cc2": "yyy" };
@@ -660,7 +665,7 @@ describe("- Testing cli.js", function () {
                         "hey": "data",
                     },
                     (result) => {
-                        assert.deepEqual(result["body"], {"hey": "data"});
+                        assert.deepEqual(result["body"], "eyJoZXkiOiJkYXRhIn0=");
                     },
                     cb
                 );
@@ -673,7 +678,7 @@ describe("- Testing cli.js", function () {
                         "hey": "data",
                     },
                     (result) => {
-                        assert.deepEqual(result["body"], {"hey": "data"});
+                        assert.deepEqual(result["body"], "eyJoZXkiOiJkYXRhIn0=");
                     },
                     cb
                 );

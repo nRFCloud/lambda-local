@@ -30,7 +30,7 @@ export function setLogger(_logger){
         console.warn("Invalid logger object ! Using default logger");
     }
 }
- 
+
 export function getLogger() {
     return logger;
 }
@@ -96,7 +96,7 @@ function _getRequestPayload(req, callback) {
     req.on('end', () => {
         let payload, event;
         try {
-            payload = JSON.parse(body || '{}');
+            payload = JSON.parse(body || "{}");
         } catch(err) {
             callback(err);
             return;
@@ -133,8 +133,8 @@ function _getRequestPayload(req, callback) {
                     time: new Date().toISOString(),
                     timeEpoch: new Date().getTime(),
                 },
-                body: payload,
-                isBase64Encoded: req.headers['content-type'] !== 'application/json',
+                body: Buffer.from(body || "", "utf8").toString("base64"),
+                isBase64Encoded: true,
             };
         }
         callback(null, event);
@@ -157,7 +157,7 @@ function _formatResponsePayload(res, data) {
         }
     }
     res.writeHead(data.statusCode, data.headers);
-    return JSON.stringify(data.body);
+    return typeof data.body == "string" ? data.body : JSON.stringify(data.body);
 }
 
 function updateEnv(env) {

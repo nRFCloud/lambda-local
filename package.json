@@ -1,6 +1,6 @@
 {
-  "name": "lambda-local",
-  "version": "2.1.2",
+  "name": "@nrfcloud/lambda-local",
+  "version": "2.2.0",
   "description": "Commandline tool to run Lambda functions on your local machine.",
   "main": "build/lambdalocal.js",
   "types": "build/lambdalocal.d.ts",
@@ -25,17 +25,13 @@
     "local",
     "run"
   ],
-  "author": "ashiina",
-  "maintainers": [
-    {
-      "name": "Gabriel Potter (gpotter2)",
-      "email": "10530980+gpotter2@users.noreply.github.com"
-    }
-  ],
+  "author": "John Conley",
   "engines": {
     "node": ">=8"
   },
   "dependencies": {
+    "@aws-sdk/client-sts": "^3.465.0",
+    "aws-sdk": "^2.1510.0",
     "commander": "^10.0.1",
     "dotenv": "^16.3.1",
     "winston": "^3.10.0"
@@ -43,9 +39,10 @@
   "devDependencies": {
     "@types/node": "^20.4.4",
     "chai": "^4.3.7",
-    "mocha": "<8.0.0",
+    "changesets": "^1.0.2",
+    "mocha": "7.2.0",
     "sinon": "^15.2.0",
-    "typescript": "<5.1.0"
+    "typescript": "^5.0.4"
   },
   "preferGlobal": true,
   "repository": {
